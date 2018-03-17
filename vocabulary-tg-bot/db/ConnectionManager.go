@@ -1,7 +1,7 @@
 package db
 
 import (
-	"vars"
+	"vocabulary-tg-bot/vars"
 	"log"
 	"upper.io/db.v3/postgresql"
 	"upper.io/db.v3/lib/sqlbuilder"

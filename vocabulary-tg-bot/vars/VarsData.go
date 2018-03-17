@@ -4,21 +4,23 @@ import (
 	"os"
 	"strconv"
 	"log"
+	"strings"
 )
 
 const (
-	TELEGRAM_BOT_TOKEN  = "BOT_TOKEN"
-	DB_CONNECTION_STRING = "test"
-	DB_HOST             = "DB_HOST"
-	DB_NAME             = "DB_NAME"
-	DB_USER             = "DB_USER"
-	DB_PASSWORD         = "DB_PASSWORD"
-	DB_SOCKET           = "DB_SOCKET"
+	TELEGRAM_BOT_TOKEN   = "BOT_TOKEN"
+	DB_CONNECTION_STRING = "DB_CONNECTION_STRING"
+	BOT_LEARNING         = "BOT_LEARNING"
 )
 
 
 func GetString(varName string) string {
 	return os.Getenv(varName)
+}
+
+
+func GetBoolean(varName string) bool {
+	return strings.ToLower(os.Getenv(varName)) == "true"
 }
 
 

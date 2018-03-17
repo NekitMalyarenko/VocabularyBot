@@ -2,7 +2,7 @@ package db
 
 import (
 	"encoding/json"
-	"web"
+	"vocabulary-tg-bot/web/types"
 )
 
 const (
@@ -17,19 +17,20 @@ const (
 
 
 type NNData struct {
-	Id            int64   `db:"id"`
+	Id            int64   `db:"id,omitempty"`
 	Word          string  `db:"word"`
 	WordRank      int     `db:"word_rank"`
 	Definitions   string  `db:"definitions"`
 	UsageExamples string  `db:"usage_examples"`
-	WordRating    int     `db:"word_rating"`
+	WordRating    float64 `db:"word_rating"`
 	RatedUserId   int64   `db:"rated_by"`
 }
 
 
-func (manager *dbManager) AddData(word web.RowWordData, userId int64 ) error {
+func (manager *dbManager) AddNNData(word *webTypes.RowWordData, wordRating float64, userId int64) error {
 	nnData, err := new(NNData).parseWordData(word)
 	nnData.RatedUserId = userId
+	nnData.WordRating = wordRating
 	if err != nil {
 		return err
 	}
@@ -38,12 +39,11 @@ func (manager *dbManager) AddData(word web.RowWordData, userId int64 ) error {
 		Values(nnData).
 		Exec()
 
-
 	return err
 }
 
 
-func (manager *dbManager) HasWord(word string) bool {
+func (manager *dbManager) HasNNWord(word string) bool {
 	query := manager.Session.SelectFrom(NN_DATA_TABLE)
 	query = query.Where(NN_DATA_WORD + "='" + word + "'")
 
@@ -51,7 +51,7 @@ func (manager *dbManager) HasWord(word string) bool {
 }
 
 
-func (data *NNData) parseWordData(word web.RowWordData) (*NNData, error) {
+func (data *NNData) parseWordData(word *webTypes.RowWordData) (*NNData, error) {
 	data.Word = word.Word
 
 	temp, err := json.Marshal(word.Definitions)

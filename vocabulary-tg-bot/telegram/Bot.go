@@ -3,9 +3,11 @@ package telegram
 import (
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"log"
-	"vars"
-	"telegram/data"
-	"telegram/handlers"
+	"strconv"
+
+	"vocabulary-tg-bot/vars"
+	"vocabulary-tg-bot/telegram/data"
+	"vocabulary-tg-bot/telegram/handlers"
 )
 
 var (
@@ -14,7 +16,14 @@ var (
 
 
 func Start() {
-	actionsInit()
+	textActionsInit()
+	buttonActionsInit()
+
+	if vars.GetBoolean(vars.BOT_LEARNING) {
+		log.Println("BOT LEARNING IS TRUE")
+		go initBotLearning()
+	}
+
 	botInit()
 }
 
@@ -37,11 +46,7 @@ func botInit() {
 	updates, err := bot.GetUpdatesChan(u)
 
 	for update := range updates {
-		if update.Message == nil {
-			continue
-		}
-
-		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+		//log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
 		handleUpdate(update)
 	}
@@ -50,12 +55,12 @@ func botInit() {
 
 func handleUpdate(update tgbotapi.Update) {
 	var (
-		context *telegramData.Context
+		context    *telegramData.Context
+		action     func(data telegramData.ActionData)bool
 		chatId = getChatId(update)
-		action func(data telegramData.ActionData)bool
 	)
 
-	if !telegramData.GetContextHolder().HasContext(update.Message.Chat.ID) {
+	if !telegramData.GetContextHolder().HasContext(chatId) {
 		telegramData.GetContextHolder().CreateContext(chatId)
 	}
 	context = telegramData.GetContextHolder().GetContext(chatId)
@@ -64,6 +69,14 @@ func handleUpdate(update tgbotapi.Update) {
 
 		if update.CallbackQuery == nil {
 			action = telegramData.GetActionsHolder().GetAction(update.Message.Text)
+		} else {
+			id, err := strconv.Atoi(update.CallbackQuery.Data)
+			if err != nil {
+				log.Println(err)
+				sendErrorMessage(update)
+			}
+
+			action = telegramData.GetButtonsDataHolder().GetButtonData(id)
 		}
 
 	} else {
@@ -75,10 +88,11 @@ func handleUpdate(update tgbotapi.Update) {
 	} else {
 		data := telegramData.ActionData{
 			Update:  update,
-			Context: telegramData.GetContextHolder().GetContext(update.Message.Chat.ID),
-			ChatId:  update.Message.Chat.ID,
+			Context: telegramData.GetContextHolder().GetContext(chatId),
+			ChatId:  chatId,
 			Bot:     bot,
 		}
+
 		if !action(data) {
 			sendErrorMessage(update)
 		}
@@ -110,7 +124,12 @@ func getChatId(update tgbotapi.Update) int64 {
 }
 
 
-func actionsInit() {
+func buttonActionsInit() {
+	telegramData.GetButtonsDataHolder().RegisterButtonData(telegramHandlers.START_NN_TRAINIG_BUTTON, telegramHandlers.BeginNNTrainingButton)
+}
+
+
+func textActionsInit() {
 	telegramData.GetActionsHolder().AddAction("/start", telegramHandlers.NewUserActionHandler)
 	telegramData.GetActionsHolder().AddAction("/begin_test", telegramHandlers.BeginNNTraining)
 	telegramData.GetActionsHolder().AddAction("/getWord", telegramHandlers.GetWord)

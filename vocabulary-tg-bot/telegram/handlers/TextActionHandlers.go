@@ -2,14 +2,15 @@ package telegramHandlers
 
 import (
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"telegram/data"
-	"telegram/helpers"
-	"db"
 	"log"
 	"strconv"
-	"fmt"
 	"math"
-	"web"
+
+	"vocabulary-tg-bot/web"
+	"vocabulary-tg-bot/web/types"
+	"vocabulary-tg-bot/telegram/data"
+	"vocabulary-tg-bot/telegram/helpers"
+	"vocabulary-tg-bot/db"
 )
 
 const (
@@ -70,9 +71,12 @@ func BeginNNTraining(actionData telegramData.ActionData) bool {
 	if isTester {
 		actionData.Context.NextAction = NNTraining
 		actionData.Context.Data["page"] = 2
-		actionData.Context.Data["nnTrainingData"] = make(map[string]float64, 0)
 
-		message := tgbotapi.NewMessage(actionData.ChatId, "word 1")
+		word := web.GetNNTrainingWord()
+		actionData.Context.Data["word"] = word
+
+		message := tgbotapi.NewMessage(actionData.ChatId, word.ToString())
+		message.ParseMode = "HTML"
 		actionData.Bot.Send(message)
 		return true
 
@@ -97,12 +101,23 @@ func NNTraining(actionData telegramData.ActionData) bool {
 	}
 	wordScore = toFixed(wordScore / 10, 3)
 
-	actionData.Context.Data["nnTrainingData"].(map[string]float64)["word" + strconv.Itoa(actionData.Context.Data["page"].(int)-1)] = wordScore
+	log.Println("page", actionData.Context.Data["page"], "score:", wordScore)
+
+	word := actionData.Context.Data["word"].(*webTypes.RowWordData)
+	err = db.GetDBManager().AddNNData(word, wordScore, actionData.ChatId)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
 
 	if actionData.Context.Data["page"] == USER_TRAINING_QUESTIONS + 1 {
 		return EndNNTraining(actionData)
 	} else {
-		message = tgbotapi.NewMessage(actionData.ChatId, "word " + strconv.Itoa(actionData.Context.Data["page"].(int)))
+		word = web.GetNNTrainingWord()
+		actionData.Context.Data["word"] = word
+
+		message = tgbotapi.NewMessage(actionData.ChatId, word.ToString())
+		message.ParseMode = "HTML"
 		actionData.Context.Data["page"] = actionData.Context.Data["page"].(int) +  1
 	}
 
@@ -123,7 +138,6 @@ func toFixed(num float64, precision int) float64 {
 
 
 func EndNNTraining(actionData telegramData.ActionData) bool {
-	fmt.Println("DEBUG:", actionData.Context.Data["nnTrainingData"])
 	actionData.Context.ReCreateContext()
 
 	text := telegramHelpers.MessageBuilderInit().BoldText("Thank you =)\n").
@@ -135,7 +149,6 @@ func EndNNTraining(actionData telegramData.ActionData) bool {
 	return true
 }
 //NNTraining - End
-
 
 
 func GetWord(actionData telegramData.ActionData) bool {
