@@ -2,7 +2,7 @@ package webTypes
 
 import (
 	"strings"
-	"telegram/helpers"
+	"github.com/NekitMalyarenko/VocabularyBot/telegram/helpers"
 )
 
 type RowWordData struct {
