@@ -5,9 +5,9 @@ import (
 	"log"
 	"strconv"
 
-	"telegram/data"
-	"telegram/handlers"
-	"vars"
+	"github.com/NekitMalyarenko/VocabularyBot/telegram/data"
+	"github.com/NekitMalyarenko/VocabularyBot/telegram/handlers"
+	"github.com/NekitMalyarenko/VocabularyBot/vars"
 )
 
 var (
