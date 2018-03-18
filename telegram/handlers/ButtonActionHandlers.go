@@ -2,7 +2,7 @@ package telegramHandlers
 
 import (
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"telegram/data"
+	"github.com/NekitMalyarenko/VocabularyBot/telegram/data"
 )
 
 const (
