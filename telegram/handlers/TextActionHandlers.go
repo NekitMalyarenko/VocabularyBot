@@ -6,11 +6,11 @@ import (
 	"math"
 	"strconv"
 
-	"db"
-	"telegram/data"
-	"telegram/helpers"
-	"web"
-	"web/types"
+	"github.com/NekitMalyarenko/VocabularyBot/db"
+	"github.com/NekitMalyarenko/VocabularyBot/telegram/data"
+	"github.com/NekitMalyarenko/VocabularyBot/telegram/helpers"
+	"github.com/NekitMalyarenko/VocabularyBot/web"
+	"github.com/NekitMalyarenko/VocabularyBot/web/types"
 )
 
 const (
