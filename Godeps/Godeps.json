@@ -1,0 +1,45 @@
+{
+	"ImportPath": ".",
+	"GoVersion": "go1.9",
+	"GodepVersion": "v80",
+	"Deps": [
+		{
+			"ImportPath": "github.com/PuerkitoBio/goquery",
+			"Comment": "v1.3.0-6-g61aa197",
+			"Rev": "61aa1975b1f7856927c526b0e0cd8c8b3a3030d0"
+		},
+		{
+			"ImportPath": "github.com/andybalholm/cascadia",
+			"Comment": "v1.0.0",
+			"Rev": "901648c87902174f774fac311d7f176f8647bdaa"
+		},
+		{
+			"ImportPath": "github.com/go-telegram-bot-api/telegram-bot-api",
+			"Comment": "v4.6.1-10-g690363a",
+			"Rev": "690363a5f88ea715a2b19aa13727fc12c8cba85a"
+		},
+		{
+			"ImportPath": "github.com/technoweenie/multipartstreamer",
+			"Comment": "v1.0.1",
+			"Rev": "a90a01d73ae432e2611d178c18367fbaa13e0154"
+		},
+		{
+			"ImportPath": "golang.org/x/net/html",
+			"Rev": "24dd3780ca4f75fed9f321890729414a4b5d3f13"
+		},
+		{
+			"ImportPath": "golang.org/x/net/html/atom",
+			"Rev": "24dd3780ca4f75fed9f321890729414a4b5d3f13"
+		},
+		{
+			"ImportPath": "upper.io/db.v3",
+			"Comment": "v3.5.2",
+			"Rev": "bba00b389f7e9cfdd8988e08c2832ab39119d7cf"
+		},
+		{
+			"ImportPath": "upper.io/db.v3/internal/immutable",
+			"Comment": "v3.5.2",
+			"Rev": "bba00b389f7e9cfdd8988e08c2832ab39119d7cf"
+		}
+	]
+}
