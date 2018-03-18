@@ -4,7 +4,7 @@ import (
 	"log"
 	"upper.io/db.v3/lib/sqlbuilder"
 	"upper.io/db.v3/postgresql"
-	"vars"
+	"github.com/NekitMalyarenko/VocabularyBot/vars"
 )
 
 type dbManager struct {
