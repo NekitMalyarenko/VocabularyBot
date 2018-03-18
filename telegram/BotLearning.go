@@ -5,10 +5,10 @@ import (
 	"log"
 	"time"
 
-	"db"
-	"telegram/handlers"
-	"telegram/helpers"
-	"vars"
+	"github.com/NekitMalyarenko/VocabularyBot/db"
+	"github.com/NekitMalyarenko/VocabularyBot/telegram/handlers"
+	"github.com/NekitMalyarenko/VocabularyBot/elegram/helpers"
+	"github.com/NekitMalyarenko/VocabularyBot/vars"
 )
 
 const HOUR = 20
