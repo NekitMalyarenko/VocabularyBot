@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"db"
-	"web/types"
+	"github.com/NekitMalyarenko/VocabularyBot/db"
+	"github.com/NekitMalyarenko/VocabularyBot/web/types"
 )
 
 const (
