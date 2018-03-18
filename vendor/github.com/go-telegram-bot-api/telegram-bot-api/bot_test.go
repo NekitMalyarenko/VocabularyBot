@@ -1,4 +1,4 @@
-package tgbotapi_test
+package tgbotapi
 
 import (
 	"io/ioutil"

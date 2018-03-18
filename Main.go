@@ -1,10 +1,8 @@
 package main
 
 import (
-	"os"
-	"vocabulary-tg-bot/telegram"
-	"vocabulary-tg-bot/vars"
-	"vocabulary-tg-bot/db"
+	"telegram"
+	"db"
 )
 
 func main() {

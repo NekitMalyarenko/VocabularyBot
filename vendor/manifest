@@ -1,0 +1,161 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "github.com/PuerkitoBio/goquery",
+			"repository": "https://github.com/PuerkitoBio/goquery",
+			"revision": "61aa1975b1f7856927c526b0e0cd8c8b3a3030d0",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/andybalholm/cascadia",
+			"repository": "https://github.com/andybalholm/cascadia",
+			"revision": "901648c87902174f774fac311d7f176f8647bdaa",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/cznic/b",
+			"repository": "https://github.com/cznic/b",
+			"revision": "35e9bbe41f07452a183c517a5fc5f3c9f45eaa0f",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/cznic/fileutil",
+			"repository": "https://github.com/cznic/fileutil",
+			"revision": "6a051e75936f623600b67c2b1116b6b6c0ffb936",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/cznic/golex/lex",
+			"repository": "https://github.com/cznic/golex",
+			"revision": "4ab7c5e190e49208c823ce8ec803aa39e6a4b31a",
+			"branch": "master",
+			"path": "/lex"
+		},
+		{
+			"importpath": "github.com/cznic/internal/buffer",
+			"repository": "https://github.com/cznic/internal",
+			"revision": "4747030f7cf2f4c0a01512b00cd68734b167ac3b",
+			"branch": "master",
+			"path": "/buffer"
+		},
+		{
+			"importpath": "github.com/cznic/internal/file",
+			"repository": "https://github.com/cznic/internal",
+			"revision": "4747030f7cf2f4c0a01512b00cd68734b167ac3b",
+			"branch": "master",
+			"path": "/file"
+		},
+		{
+			"importpath": "github.com/cznic/internal/slice",
+			"repository": "https://github.com/cznic/internal",
+			"revision": "4747030f7cf2f4c0a01512b00cd68734b167ac3b",
+			"branch": "master",
+			"path": "/slice"
+		},
+		{
+			"importpath": "github.com/cznic/lldb",
+			"repository": "https://github.com/cznic/lldb",
+			"revision": "bea8611dd5c407f3c5eab9f9c68e887a27dc6f0e",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/cznic/mathutil",
+			"repository": "https://github.com/cznic/mathutil",
+			"revision": "7764e6a2216aaa02c36f75aad62538d39c2962c2",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/cznic/ql",
+			"repository": "https://github.com/cznic/ql",
+			"revision": "eccf3e9caa43fab70d7ddfdee5c3fb73fc76c2a1",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/cznic/ql/driver",
+			"repository": "https://github.com/cznic/ql",
+			"revision": "eccf3e9caa43fab70d7ddfdee5c3fb73fc76c2a1",
+			"branch": "master",
+			"path": "/driver"
+		},
+		{
+			"importpath": "github.com/cznic/sortutil",
+			"repository": "https://github.com/cznic/sortutil",
+			"revision": "4c7342852e65c2088c981288f2c5610d10b9f7f4",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/cznic/strutil",
+			"repository": "https://github.com/cznic/strutil",
+			"revision": "529a34b1c186b483642a7a230c67521d9aa4b0fb",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/cznic/zappy",
+			"repository": "https://github.com/cznic/zappy",
+			"revision": "2533cb5b45cc6c07421468ce262899ddc9d53fb7",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/denisenkom/go-mssqldb",
+			"repository": "https://github.com/denisenkom/go-mssqldb",
+			"revision": "270bc3860bb94dd3a3ffd047377d746c5e276726",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/edsrzf/mmap-go",
+			"repository": "https://github.com/edsrzf/mmap-go",
+			"revision": "0bce6a6887123b67a60366d2c9fe2dfb74289d2e",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/go-sql-driver/mysql",
+			"repository": "https://github.com/go-sql-driver/mysql",
+			"revision": "1a676ac6e4dce68e9303a1800773861350374a9e",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/go-telegram-bot-api/telegram-bot-api",
+			"repository": "https://github.com/go-telegram-bot-api/telegram-bot-api",
+			"revision": "690363a5f88ea715a2b19aa13727fc12c8cba85a",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/lib/pq",
+			"repository": "https://github.com/lib/pq",
+			"revision": "88edab0803230a3898347e77b474f8c1820a1f20",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/mattn/go-sqlite3",
+			"repository": "https://github.com/mattn/go-sqlite3",
+			"revision": "9101028e5ca824d2baf0fbd91b9700e2669a6cd9",
+			"branch": "master"
+		},
+		{
+			"importpath": "github.com/technoweenie/multipartstreamer",
+			"repository": "https://github.com/technoweenie/multipartstreamer",
+			"revision": "a90a01d73ae432e2611d178c18367fbaa13e0154",
+			"branch": "master"
+		},
+		{
+			"importpath": "golang.org/x/net/html",
+			"repository": "https://go.googlesource.com/net",
+			"revision": "24dd3780ca4f75fed9f321890729414a4b5d3f13",
+			"branch": "master",
+			"path": "/html"
+		},
+		{
+			"importpath": "gopkg.in/mgo.v2",
+			"repository": "https://gopkg.in/mgo.v2",
+			"revision": "3f83fa5005286a7fe593b055f0d7771a7dce4655",
+			"branch": "v2"
+		},
+		{
+			"importpath": "upper.io/db.v3",
+			"repository": "https://upper.io/db.v3",
+			"revision": "bba00b389f7e9cfdd8988e08c2832ab39119d7cf",
+			"branch": "master"
+		}
+	]
+}
