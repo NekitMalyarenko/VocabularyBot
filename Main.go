@@ -10,5 +10,4 @@ func main() {
 	defer db.CloseConnection()
 
 	telegram.Start()
-	fdg
 }
