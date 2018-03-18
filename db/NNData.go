@@ -2,7 +2,7 @@ package db
 
 import (
 	"encoding/json"
-	"web/types"
+	"github.com/NekitMalyarenko/VocabularyBot/web/types"
 )
 
 const (
