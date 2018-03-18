@@ -7,7 +7,7 @@ import (
 
 	"github.com/NekitMalyarenko/VocabularyBot/db"
 	"github.com/NekitMalyarenko/VocabularyBot/telegram/handlers"
-	"github.com/NekitMalyarenko/VocabularyBot/elegram/helpers"
+	"github.com/NekitMalyarenko/VocabularyBot/telegram/helpers"
 	"github.com/NekitMalyarenko/VocabularyBot/vars"
 )
 
