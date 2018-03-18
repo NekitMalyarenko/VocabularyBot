@@ -11,20 +11,20 @@ import (
 	"github.com/NekitMalyarenko/VocabularyBot/vars"
 )
 
-const HOUR = 20
 
 func initBotLearning() {
-	i := 0
-
 	time.Sleep(10 * time.Second)
 
+	var (
+		hour, hourTrigger, minute int
+	)
+
 	for {
-		hour := time.Now().Hour()
-		minute := time.Now().Minute()
+		hourTrigger = vars.GetInt(vars.HOUR_TRIGGER) + 2
+		hour        = time.Now().Hour()
+		minute      = time.Now().Minute()
 
-		log.Println("Hour", hour, "minute", minute)
-
-		if i == 0 {
+		if hour == hourTrigger && minute == minute {
 			testers, err := db.GetDBManager().GetAllTesters()
 			if err != nil {
 				log.Println(err)
@@ -43,7 +43,7 @@ func initBotLearning() {
 		if !vars.GetBoolean(vars.BOT_LEARNING) {
 			break
 		}
-		time.Sleep(60 * time.Second)
-		i++
+
+		time.Sleep(time.Duration(60 - time.Now().Second()) * time.Second)
 	}
 }

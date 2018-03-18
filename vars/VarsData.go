@@ -11,6 +11,7 @@ const (
 	TELEGRAM_BOT_TOKEN   = "BOT_TOKEN"
 	DB_CONNECTION_STRING = "DB_CONNECTION_STRING"
 	BOT_LEARNING         = "BOT_LEARNING"
+	HOUR_TRIGGER         = "HOUR_TRIGGER"
 )
 
 func GetString(varName string) string {
