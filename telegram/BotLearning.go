@@ -20,8 +20,8 @@ func initBotLearning() {
 	)
 
 	for {
-		hourTrigger = vars.GetInt(vars.HOUR_TRIGGER) + 2
-		hour        = time.Now().Hour()
+		hourTrigger = vars.GetInt(vars.HOUR_TRIGGER)
+		hour        = time.Now().Hour()  + 2
 		minute      = time.Now().Minute()
 
 		if hour == hourTrigger && minute == minute {
