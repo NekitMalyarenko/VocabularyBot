@@ -9,6 +9,7 @@ const (
 	START_NN_TRAINIG_BUTTON = 0
 )
 
+
 func BeginNNTrainingButton(actionData telegramData.ActionData) bool {
 	actionData.Bot.DeleteMessage(tgbotapi.DeleteMessageConfig{
 		ChatID:    actionData.ChatId,

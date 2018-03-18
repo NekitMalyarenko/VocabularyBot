@@ -5,19 +5,23 @@ import (
 	"strconv"
 )
 
+
 type ButtonData struct {
 	Text     string
 	FuncId   int
 	IsNewRow bool
 }
 
+
 type KeyboardBuilder struct {
 	hidden []ButtonData
 }
 
+
 func KeyboardBuilderInit() *KeyboardBuilder {
 	return new(KeyboardBuilder)
 }
+
 
 func (keyboard *KeyboardBuilder) NewButton(text string, isNewRow bool, funcId int) *KeyboardBuilder {
 	button := ButtonData{
@@ -28,6 +32,7 @@ func (keyboard *KeyboardBuilder) NewButton(text string, isNewRow bool, funcId in
 	keyboard.hidden = append(keyboard.hidden, button)
 	return keyboard
 }
+
 
 func (keyboard *KeyboardBuilder) GetKeyboard() tgbotapi.InlineKeyboardMarkup {
 	res := make([][]tgbotapi.InlineKeyboardButton, 0)

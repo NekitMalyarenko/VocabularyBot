@@ -24,7 +24,7 @@ func initBotLearning() {
 		hour        = time.Now().Hour()  + 2
 		minute      = time.Now().Minute()
 
-		if hour == hourTrigger && minute == minute {
+		if hour == hourTrigger && minute == 0 {
 			testers, err := db.GetDBManager().GetAllTesters()
 			if err != nil {
 				log.Println(err)
