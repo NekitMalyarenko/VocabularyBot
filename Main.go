@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/NekitMalyarenko/VocabularyBot/db"
 	"github.com/NekitMalyarenko/VocabularyBot/telegram"
+	"github.com/NekitMalyarenko/VocabularyBot/db"
 )
 
 func main() {

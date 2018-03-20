@@ -2,30 +2,30 @@ package telegramData
 
 import "log"
 
-type ButtonsDataHolder struct {
-	data map[int]func(actionData ActionData) bool
+type ButtonsHolder struct {
+	data map[int]func(ActionData)bool
 }
 
 var (
-	buttonsDataHolder *ButtonsDataHolder
+	buttonsHolder *ButtonsHolder
 )
 
-func GetButtonsDataHolder() *ButtonsDataHolder {
+func GetButtonsHolder() *ButtonsHolder {
 
-	if buttonsDataHolder == nil {
-		buttonsDataHolder = &ButtonsDataHolder{
-			data: make(map[int]func(actionData ActionData) bool, 0),
+	if buttonsHolder == nil {
+		buttonsHolder = &ButtonsHolder{
+			data: make(map[int]func(ActionData)bool, 0),
 		}
 		log.Println("New Instance of ButtonsData holder")
 	}
 
-	return buttonsDataHolder
+	return buttonsHolder
 }
 
-func (holder *ButtonsDataHolder) RegisterButtonData(id int, function func(actionData ActionData) bool) {
+func (holder *ButtonsHolder) RegisterButton(id int, function func(ActionData)bool) {
 	holder.data[id] = function
 }
 
-func (holder *ButtonsDataHolder) GetButtonData(id int) func(actionData ActionData) bool {
+func (holder *ButtonsHolder) GetButton(id int) func(ActionData)bool {
 	return holder.data[id]
 }

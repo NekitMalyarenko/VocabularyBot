@@ -5,20 +5,25 @@ import (
 	"log"
 )
 
+
 type ActionData struct {
-	Update  tgbotapi.Update
-	Context *Context
-	ChatId  int64
-	Bot     *tgbotapi.BotAPI
+	Update     tgbotapi.Update
+	Bot        *tgbotapi.BotAPI
+	Context    *Context
+	ButtonData map[string]interface{}
+	ChatId     int64
 }
+
 
 type ActionsHolder struct {
 	actions map[string]func(data ActionData) bool
 }
 
+
 var (
 	actionsHolder *ActionsHolder
 )
+
 
 func GetActionsHolder() *ActionsHolder {
 	if actionsHolder == nil {
@@ -31,9 +36,11 @@ func GetActionsHolder() *ActionsHolder {
 	return actionsHolder
 }
 
+
 func (holder *ActionsHolder) AddAction(key string, action func(data ActionData) bool) {
 	holder.actions[key] = action
 }
+
 
 func (holder *ActionsHolder) GetAction(key string) func(data ActionData) bool {
 	return holder.actions[key]

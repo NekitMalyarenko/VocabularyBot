@@ -14,11 +14,13 @@ import (
 	"github.com/NekitMalyarenko/VocabularyBot/web/types"
 )
 
+
 const (
 	WORD_COUNT_URL        = "http://www.wordcount.org/dbquery.php?"
 	OXFORD_DICTIONARY_URL = "https://en.oxforddictionaries.com/definition/"
 	NUMBER_OF_EXAMPLES    = 5
 )
+
 
 func GetNNTrainingWord() *webTypes.RowWordData {
 
@@ -35,6 +37,7 @@ func GetNNTrainingWord() *webTypes.RowWordData {
 	}
 
 }
+
 
 func GetRandomWord() (*webTypes.RowWordData, error) {
 	var (
@@ -64,6 +67,7 @@ func GetRandomWord() (*webTypes.RowWordData, error) {
 	}
 }
 
+
 func getWordData(index int) (word string, err error) {
 	url := WORD_COUNT_URL + "toFind=" + strconv.Itoa(index) + "&method=SEARCH_BY_INDEX"
 
@@ -84,6 +88,7 @@ func getWordData(index int) (word string, err error) {
 
 	return word, nil
 }
+
 
 func getExtendedWordData(word string) (Definitions map[string][]string, UsageExamples map[string][]string, err error) {
 	urlToParse := OXFORD_DICTIONARY_URL + word
@@ -112,6 +117,7 @@ func getExtendedWordData(word string) (Definitions map[string][]string, UsageExa
 	})
 	return definitions, usageExamples, nil
 }
+
 
 func parseUsageExamples(input string) []string {
 	var (
@@ -151,6 +157,7 @@ func parseUsageExamples(input string) []string {
 
 	return result
 }
+
 
 func checkData(data *webTypes.RowWordData) bool {
 

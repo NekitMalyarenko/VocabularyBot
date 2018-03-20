@@ -3,16 +3,18 @@ package telegram
 import (
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"log"
-	"strconv"
 
 	"github.com/NekitMalyarenko/VocabularyBot/telegram/data"
 	"github.com/NekitMalyarenko/VocabularyBot/telegram/handlers"
 	"github.com/NekitMalyarenko/VocabularyBot/vars"
+	"github.com/NekitMalyarenko/VocabularyBot/telegram/helpers"
 )
+
 
 var (
 	bot *tgbotapi.BotAPI
 )
+
 
 func Start() {
 	textActionsInit()
@@ -25,6 +27,7 @@ func Start() {
 
 	botInit()
 }
+
 
 func botInit() {
 	var err error
@@ -50,11 +53,28 @@ func botInit() {
 	}
 }
 
+
+func textActionsInit() {
+	telegramData.GetActionsHolder().AddAction("/start", telegramHandlers.NewUserActionHandler)
+	telegramData.GetActionsHolder().AddAction("/begin_test", telegramHandlers.BeginNNTraining)
+	telegramData.GetActionsHolder().AddAction("/getWord", telegramHandlers.GetWord)
+	//telegramData.GetActionsHolder().AddAction("/cancel", telegramHandlers.Cancel)
+}
+
+
+func buttonActionsInit() {
+	telegramData.GetButtonsHolder().RegisterButton(telegramHandlers.START_NN_TRAINIG_BUTTON, telegramHandlers.BeginNNTrainingButton)
+}
+
+
 func handleUpdate(update tgbotapi.Update) {
 	var (
-		context *telegramData.Context
-		action  func(data telegramData.ActionData) bool
-		chatId  = getChatId(update)
+		context    *telegramData.Context
+		buttonData map[string]interface{}
+		action     func(data telegramData.ActionData) bool
+		err        error
+
+		chatId = getChatId(update)
 	)
 
 	if !telegramData.GetContextHolder().HasContext(chatId) {
@@ -62,32 +82,36 @@ func handleUpdate(update tgbotapi.Update) {
 	}
 	context = telegramData.GetContextHolder().GetContext(chatId)
 
-	if context.NextAction == nil {
 
-		if update.CallbackQuery == nil {
-			action = telegramData.GetActionsHolder().GetAction(update.Message.Text)
+	if update.CallbackQuery == nil {
+		if context.NextAction != nil {
+			action = context.NextAction
 		} else {
-			id, err := strconv.Atoi(update.CallbackQuery.Data)
-			if err != nil {
-				log.Println(err)
-				sendErrorMessage(update)
-			}
-
-			action = telegramData.GetButtonsDataHolder().GetButtonData(id)
+			action = telegramData.GetActionsHolder().GetAction(update.Message.Text)
+		}
+	} else {
+		if context.NextAction != nil {
+			context.ReCreateContext()
 		}
 
-	} else {
-		action = context.NextAction
+		buttonData, action, err = telegramHelpers.ButtonInit(update.CallbackQuery.Data)
+		if err != nil {
+			log.Println(err)
+			sendErrorMessage(update)
+			return
+		}
 	}
+
 
 	if action == nil {
 		sendActionNotFound(update)
 	} else {
 		data := telegramData.ActionData{
-			Update:  update,
-			Context: telegramData.GetContextHolder().GetContext(chatId),
-			ChatId:  chatId,
-			Bot:     bot,
+			Update     :  update,
+			Context    : telegramData.GetContextHolder().GetContext(chatId),
+			ButtonData : buttonData,
+			ChatId     :  chatId,
+			Bot        :     bot,
 		}
 
 		if !action(data) {
@@ -97,15 +121,18 @@ func handleUpdate(update tgbotapi.Update) {
 
 }
 
+
 func sendActionNotFound(update tgbotapi.Update) {
 	message := tgbotapi.NewMessage(getChatId(update), "Sorry, but I don't understand you =(")
 	bot.Send(message)
 }
 
+
 func sendErrorMessage(update tgbotapi.Update) {
 	message := tgbotapi.NewMessage(getChatId(update), "Oppss... Something went wrong =(")
 	bot.Send(message)
 }
+
 
 func getChatId(update tgbotapi.Update) int64 {
 
@@ -115,15 +142,4 @@ func getChatId(update tgbotapi.Update) int64 {
 		return update.CallbackQuery.Message.Chat.ID
 	}
 
-}
-
-func buttonActionsInit() {
-	telegramData.GetButtonsDataHolder().RegisterButtonData(telegramHandlers.START_NN_TRAINIG_BUTTON, telegramHandlers.BeginNNTrainingButton)
-}
-
-func textActionsInit() {
-	telegramData.GetActionsHolder().AddAction("/start", telegramHandlers.NewUserActionHandler)
-	telegramData.GetActionsHolder().AddAction("/begin_test", telegramHandlers.BeginNNTraining)
-	telegramData.GetActionsHolder().AddAction("/getWord", telegramHandlers.GetWord)
-	//telegramData.GetActionsHolder().AddAction("/cancel", telegramHandlers.Cancel)
 }
