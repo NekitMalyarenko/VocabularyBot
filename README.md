@@ -1,5 +1,4 @@
 # VocabularyBot
-____
 ## Types
 **Can't import anything from project.**
 All the types, which are used at least in 2 packages, should be here.
