@@ -11,8 +11,9 @@ import (
 	"time"
 
 	"github.com/NekitMalyarenko/VocabularyBot/db"
-	"github.com/NekitMalyarenko/VocabularyBot/web/types"
+	"github.com/NekitMalyarenko/VocabularyBot/types"
 )
+
 
 const (
 	WORD_COUNT_URL        = "http://www.wordcount.org/dbquery.php?"
@@ -20,7 +21,8 @@ const (
 	NUMBER_OF_EXAMPLES    = 5
 )
 
-func GetNNTrainingWord() *webTypes.RowWordData {
+
+func GetNNTrainingWord() *types.RowWordData {
 
 	for {
 		word, err := GetRandomWord()
@@ -36,10 +38,11 @@ func GetNNTrainingWord() *webTypes.RowWordData {
 
 }
 
-func GetRandomWord() (*webTypes.RowWordData, error) {
+
+func GetRandomWord() (*types.RowWordData, error) {
 	var (
 		err      error
-		wordData = new(webTypes.RowWordData)
+		wordData = new(types.RowWordData)
 	)
 	rand.Seed(time.Now().UnixNano())
 
@@ -64,6 +67,7 @@ func GetRandomWord() (*webTypes.RowWordData, error) {
 	}
 }
 
+
 func getWordData(index int) (word string, err error) {
 	url := WORD_COUNT_URL + "toFind=" + strconv.Itoa(index) + "&method=SEARCH_BY_INDEX"
 
@@ -84,6 +88,7 @@ func getWordData(index int) (word string, err error) {
 
 	return word, nil
 }
+
 
 func getExtendedWordData(word string) (Definitions map[string][]string, UsageExamples map[string][]string, err error) {
 	urlToParse := OXFORD_DICTIONARY_URL + word
@@ -112,6 +117,7 @@ func getExtendedWordData(word string) (Definitions map[string][]string, UsageExa
 	})
 	return definitions, usageExamples, nil
 }
+
 
 func parseUsageExamples(input string) []string {
 	var (
@@ -152,7 +158,8 @@ func parseUsageExamples(input string) []string {
 	return result
 }
 
-func checkData(data *webTypes.RowWordData) bool {
+
+func checkData(data *types.RowWordData) bool {
 
 	if len(data.Definitions) == 0 || len(data.UsageExamples) == 0 {
 		return false
