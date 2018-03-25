@@ -7,7 +7,7 @@ ____
 **Can't import bot.**
 ____
 ## TelegramServices
-**Can't import anything.**
+**Can't import anything from project.**
 ____
 ## Bot
 This package represents telegram bot,as well as all handlers,sevices.
