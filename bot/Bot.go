@@ -31,12 +31,6 @@ func Start() {
 		go startBotLearning()
 	}
 
-	msg := tgbotapi.NewMessage(telegram.ME, "Поучимся?)")
-	msg.ReplyMarkup = telegramServices.KeyboardBuilderInit().
-		NewButton("Окей", false, telegram.GetFuncId(handlers.BeginNNTrainingButton)).
-		GetKeyboard()
-	telegramBot.Send(msg)
-
 	err := telegramBot.Start()
 	if err != nil {
 		log.Fatal(err)
