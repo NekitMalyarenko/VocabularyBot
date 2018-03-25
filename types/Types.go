@@ -25,12 +25,13 @@ type User struct {
 
 
 type Word struct {
-	Id            int64
-	Word          string
-	Definitions   string
-	UsageExamples string
-	Likes         int
-	Dislikes      int
+	Id            int64  `db:"id"`
+	Word          string `db:"word"`
+	Date          string `db:"date"`
+	Definitions   string `db:"definitions"`
+	UsageExamples string `db:"usage_examples"`
+	Likes         int    `db:"likes"`
+	Dislikes      int    `db:"dislikes"`
 }
 
 
@@ -56,8 +57,6 @@ type Context struct {
 	Data       map[string]interface{}
 	NextAction func(actionData *ActionData) bool
 }
-
-
 
 func (context *Context) Clear() {
 	context.Data = make(map[string]interface{}, 0)

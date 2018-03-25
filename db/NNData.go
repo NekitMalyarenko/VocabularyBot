@@ -6,13 +6,13 @@ import (
 )
 
 const (
-	NN_DATA_TABLE          = "nn_data"
-	NN_DATA_ID             = "id"
-	NN_DATA_WORD           = "word"
-	NN_DATA_WORD_RATING    = "word_rating"
-	NN_DATA_DEFINITIONS    = "definitions"
-	NN_DATA_USAGE_EXAMPLES = "usage_examples"
-	NN_DATA_RATED_BY       = "rated_by"
+	nnDataTable         = "nn_data"
+	nnDataId            = "id"
+	nnDataWord          = "word"
+	nnDataWordRating    = "word_rating"
+	nnDataDefinitions   = "definitions"
+	nnDataUsageExamples = "usage_examples"
+	nnDataRatedBy       = "rated_by"
 )
 
 
@@ -25,7 +25,7 @@ func (manager *dbManager) AddNNData(word *types.RowWordData, wordRating float64,
 		return err
 	}
 
-	_, err = manager.Session.InsertInto(NN_DATA_TABLE).
+	_, err = manager.Session.InsertInto(nnDataTable).
 		Values(nnData).
 		Exec()
 
@@ -34,8 +34,8 @@ func (manager *dbManager) AddNNData(word *types.RowWordData, wordRating float64,
 
 
 func (manager *dbManager) HasNNWord(word string) bool {
-	query := manager.Session.SelectFrom(NN_DATA_TABLE)
-	query = query.Where(NN_DATA_WORD + "='" + word + "'")
+	query := manager.Session.SelectFrom(nnDataTable)
+	query = query.Where(nnDataWord + "='" + word + "'")
 
 	return query.Iterator().Next()
 }

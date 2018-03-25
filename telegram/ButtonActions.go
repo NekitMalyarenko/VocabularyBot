@@ -2,8 +2,6 @@ package telegram
 
 import (
 	"log"
-	"runtime"
-	"reflect"
 	"github.com/NekitMalyarenko/VocabularyBot/types"
 )
 
@@ -32,8 +30,8 @@ func getButtonActionsHolder() *ButtonsHolder {
 
 
 func (holder *ButtonsHolder) registerAction(function func(*types.ActionData)bool) {
-	funcName := runtime.FuncForPC(reflect.ValueOf(function).Pointer()).Name()
-	holder.data[funcName] = function
+	funcId := GetFuncId(function)
+	holder.data[funcId] = function
 }
 
 

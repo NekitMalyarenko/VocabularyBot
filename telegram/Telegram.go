@@ -118,7 +118,9 @@ func (bot *Bot) RegisterButtonHandler(function func(*types.ActionData)bool) {
 
 
 func GetFuncId(input func(*types.ActionData)bool) string {
-	return runtime.FuncForPC(reflect.ValueOf(input).Pointer()).Name()
+	result := runtime.FuncForPC(reflect.ValueOf(input).Pointer()).Name()
+	result = result[strings.Index(result, "VocabularyBot/") + 14:]
+	return result
 }
 
 
