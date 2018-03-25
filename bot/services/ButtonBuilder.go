@@ -41,6 +41,7 @@ func (keyboard *KeyboardBuilder) NewButton(text string, isNewRow bool, functionI
 		Text     : text,
 		IsNewRow : isNewRow,
 		funcId   : functionId,
+		Data     : make(map[string]interface{}, 0),
 	}
 	keyboard.hidden = append(keyboard.hidden, button)
 	return keyboard

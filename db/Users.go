@@ -7,19 +7,19 @@ import (
 )
 
 const (
-	USERS_TABLE      = "users"
-	USERS_ID         = "id"
-	USERS_FIRST_NAME = "first_name"
-	USERS_LAST_NAME  = "last_name"
-	USERS_USER_NAME  = "user_name"
-	USERS_IS_TESTER  = "is_tester"
+	usersTable     = "users"
+	usersId        = "id"
+	usersFirstName = "first_name"
+	usersLastName  = "last_name"
+	usersUserName  = "user_name"
+	usersIsTester  = "is_tester"
 )
 
 
 func (manager *dbManager) GetAllUsers() ([]*types.User, error) {
 	var users []*types.User
 
-	res := manager.Session.Collection(USERS_TABLE).Find()
+	res := manager.Session.Collection(usersTable).Find()
 	err := res.All(&users)
 	if err != nil {
 		return nil, err
@@ -32,7 +32,7 @@ func (manager *dbManager) GetAllUsers() ([]*types.User, error) {
 func (manager *dbManager) GetUser(id int64) (*types.User, error) {
 	var user *types.User
 
-	res := manager.Session.Collection(USERS_TABLE).Find(db.Cond{USERS_ID: id})
+	res := manager.Session.Collection(usersTable).Find(db.Cond{usersId: id})
 	err := res.All(&user)
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (manager *dbManager) GetUser(id int64) (*types.User, error) {
 func (manager *dbManager) GetAllTesters() ([]*types.User, error) {
 	var users []*types.User
 
-	res := manager.Session.Collection(USERS_TABLE).Find(db.Cond{USERS_IS_TESTER: true})
+	res := manager.Session.Collection(usersTable).Find(db.Cond{usersIsTester: true})
 	err := res.All(&users)
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (manager *dbManager) GetAllTesters() ([]*types.User, error) {
 func (manager *dbManager) HasUser(id int64) (bool, error) {
 	var users []*types.User
 
-	res := manager.Session.Collection(USERS_TABLE).Find(db.Cond{USERS_ID: id})
+	res := manager.Session.Collection(usersTable).Find(db.Cond{usersId: id})
 	err := res.All(&users)
 	if err != nil {
 		log.Fatal(err)
@@ -72,7 +72,7 @@ func (manager *dbManager) HasUser(id int64) (bool, error) {
 func (manager *dbManager) IsUserTester(id int64) (bool, error) {
 	var users []*types.User
 
-	res := manager.Session.Collection(USERS_TABLE).Find(db.Cond{USERS_ID: id, USERS_IS_TESTER: true})
+	res := manager.Session.Collection(usersTable).Find(db.Cond{usersId: id, usersIsTester: true})
 	err := res.All(&users)
 	if err != nil {
 		return false, err
@@ -83,7 +83,7 @@ func (manager *dbManager) IsUserTester(id int64) (bool, error) {
 
 
 func (manager *dbManager) AddUser(user types.User) error {
-	_, err := manager.Session.InsertInto(USERS_TABLE).
+	_, err := manager.Session.InsertInto(usersTable).
 		Values(user).
 		Exec()
 

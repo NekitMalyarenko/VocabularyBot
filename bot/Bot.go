@@ -13,25 +13,31 @@ import (
 )
 
 var (
-	bot *telegram.Bot
+	telegramBot *telegram.Bot
 )
 
 
 func Start() {
-	bot = telegram.Init(vars.GetString(vars.TELEGRAM_BOT_TOKEN), true)
+	telegramBot = telegram.Init(vars.GetString(vars.TELEGRAM_BOT_TOKEN), true)
 
-	bot.RegisterTextHandler("/status", handlers.StatusHandler)
-	bot.RegisterTextHandler("/start", handlers.NewUser)
-	bot.RegisterTextHandler("/begin_test", handlers.BeginNNTraining)
+	telegramBot.RegisterTextHandler("/status", handlers.StatusHandler)
+	telegramBot.RegisterTextHandler("/start", handlers.NewUser)
+	telegramBot.RegisterTextHandler("/begin_test", handlers.BeginNNTraining)
 
-	bot.RegisterButtonHandler(handlers.BeginNNTrainingButton)
+	telegramBot.RegisterButtonHandler(handlers.BeginNNTrainingButton)
 
 	if vars.GetBoolean(vars.BOT_LEARNING) {
 		log.Println("BOT LEARNING IS TRUE")
 		go startBotLearning()
 	}
 
-	err := bot.Start()
+	msg := tgbotapi.NewMessage(telegram.ME, "Поучимся?)")
+	msg.ReplyMarkup = telegramServices.KeyboardBuilderInit().
+		NewButton("Окей", false, telegram.GetFuncId(handlers.BeginNNTrainingButton)).
+		GetKeyboard()
+	telegramBot.Send(msg)
+
+	err := telegramBot.Start()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -62,7 +68,7 @@ func startBotLearning() {
 				msg.ReplyMarkup = telegramServices.KeyboardBuilderInit().
 					NewButton("Окей", false, telegram.GetFuncId(handlers.BeginNNTrainingButton)).
 					GetKeyboard()
-				bot.Send(msg)
+				telegramBot.Send(msg)
 			}
 		}
 
