@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/NekitMalyarenko/VocabularyBot/db"
-	"github.com/NekitMalyarenko/VocabularyBot/web/types"
+	"github.com/NekitMalyarenko/VocabularyBot/types"
 )
 
 
@@ -22,7 +22,7 @@ const (
 )
 
 
-func GetNNTrainingWord() *webTypes.RowWordData {
+func GetNNTrainingWord() *types.RowWordData {
 
 	for {
 		word, err := GetRandomWord()
@@ -39,10 +39,10 @@ func GetNNTrainingWord() *webTypes.RowWordData {
 }
 
 
-func GetRandomWord() (*webTypes.RowWordData, error) {
+func GetRandomWord() (*types.RowWordData, error) {
 	var (
 		err      error
-		wordData = new(webTypes.RowWordData)
+		wordData = new(types.RowWordData)
 	)
 	rand.Seed(time.Now().UnixNano())
 
@@ -159,7 +159,7 @@ func parseUsageExamples(input string) []string {
 }
 
 
-func checkData(data *webTypes.RowWordData) bool {
+func checkData(data *types.RowWordData) bool {
 
 	if len(data.Definitions) == 0 || len(data.UsageExamples) == 0 {
 		return false

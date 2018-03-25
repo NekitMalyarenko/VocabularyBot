@@ -1,8 +1,0 @@
-package telegramHelpers
-
-
-func GetRatingSystemKeyboard() {
-
-
-
-}

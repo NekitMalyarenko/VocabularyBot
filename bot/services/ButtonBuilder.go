@@ -1,17 +1,16 @@
-package telegramHelpers
+package telegramServices
 
 import (
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"encoding/json"
 	"log"
 	"errors"
-	"github.com/NekitMalyarenko/VocabularyBot/telegram/data"
 )
 
 
 type ButtonData struct {
 	Text     string
-	funcId   int
+	funcId   string
 	Data     map[string]interface{}
 	IsNewRow bool
 }
@@ -27,27 +26,21 @@ func KeyboardBuilderInit() *KeyboardBuilder {
 }
 
 
-func ButtonInit(button string) (data map[string]interface{},function func(telegramData.ActionData) bool, err error) {
+func ButtonInit(button string) (data map[string]interface{},functionId string, err error) {
 	err = json.Unmarshal([]byte(button), &data)
 	if err != nil {
 		log.Println(err)
-		return nil,nil, err
+		return nil,"", err
 	}
-
-	function = telegramData.GetButtonsHolder().GetButton(data["funcId"].(int))
-	if function == nil {
-		log.Println(errors.New("can't find func for button"))
-	}
-
-	return data, function, nil
+	return data, data["funcId"].(string), nil
 }
 
 
-func (keyboard *KeyboardBuilder) NewButton(text string, isNewRow bool, funcId int) *KeyboardBuilder {
+func (keyboard *KeyboardBuilder) NewButton(text string, isNewRow bool, functionId string) *KeyboardBuilder {
 	button := ButtonData{
-		Text     :     text,
+		Text     : text,
 		IsNewRow : isNewRow,
-		funcId   :   funcId,
+		funcId   : functionId,
 	}
 	keyboard.hidden = append(keyboard.hidden, button)
 	return keyboard

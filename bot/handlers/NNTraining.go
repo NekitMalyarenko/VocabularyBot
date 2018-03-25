@@ -1,16 +1,15 @@
-package telegramHandlers
+package handlers
 
 import (
 	"github.com/go-telegram-bot-api/telegram-bot-api"
-	"strconv"
 	"log"
+	"strconv"
 	"math"
 
-	"github.com/NekitMalyarenko/VocabularyBot/telegram/data"
-	"github.com/NekitMalyarenko/VocabularyBot/telegram/helpers"
-	"github.com/NekitMalyarenko/VocabularyBot/web"
-	"github.com/NekitMalyarenko/VocabularyBot/web/types"
+	"github.com/NekitMalyarenko/VocabularyBot/types"
 	"github.com/NekitMalyarenko/VocabularyBot/db"
+	"github.com/NekitMalyarenko/VocabularyBot/web"
+	"github.com/NekitMalyarenko/VocabularyBot/bot/services"
 )
 
 
@@ -20,7 +19,7 @@ const (
 
 
 
-func BeginNNTrainingButton(actionData telegramData.ActionData) bool {
+func BeginNNTrainingButton(actionData *types.ActionData) bool {
 	actionData.Bot.DeleteMessage(tgbotapi.DeleteMessageConfig{
 		ChatID    : actionData.ChatId,
 		MessageID : actionData.Update.CallbackQuery.Message.MessageID,
@@ -29,11 +28,10 @@ func BeginNNTrainingButton(actionData telegramData.ActionData) bool {
 }
 
 
-func BeginNNTraining(actionData telegramData.ActionData) bool {
-	actionData.Context.ReCreateContext()
-	manager := db.GetDBManager()
+func BeginNNTraining(actionData *types.ActionData) bool {
+	actionData.Context.Clear()
 
-	isTester, err := manager.IsUserTester(actionData.ChatId)
+	isTester, err := db.GetDBManager().IsUserTester(actionData.ChatId)
 	if err != nil {
 		log.Println(err)
 		return false
@@ -46,13 +44,13 @@ func BeginNNTraining(actionData telegramData.ActionData) bool {
 		word := web.GetNNTrainingWord()
 		actionData.Context.Data["word"] = word
 
-		message := tgbotapi.NewMessage(actionData.ChatId, word.ToString())
+		message := tgbotapi.NewMessage(actionData.ChatId, web.ToString(word))
 		message.ParseMode = "HTML"
 		actionData.Bot.Send(message)
 		return true
 
 	} else {
-		text := telegramHelpers.MessageBuilderInit().NormalText("You aren't ").BoldText("Tester").Text
+		text := telegramServices.MessageBuilderInit().NormalText("You aren't ").BoldText("Tester").Text
 		message := tgbotapi.NewMessage(actionData.ChatId, text)
 		message.ParseMode = "HTML"
 		actionData.Bot.Send(message)
@@ -61,7 +59,7 @@ func BeginNNTraining(actionData telegramData.ActionData) bool {
 }
 
 
-func NNTraining(actionData telegramData.ActionData) bool {
+func NNTraining(actionData *types.ActionData) bool {
 	var message tgbotapi.MessageConfig
 
 	wordScore, err := strconv.ParseFloat(actionData.Update.Message.Text, 64)
@@ -72,7 +70,7 @@ func NNTraining(actionData telegramData.ActionData) bool {
 	}
 	wordScore = toFixed(wordScore/10, 3)
 
-	word := actionData.Context.Data["word"].(*webTypes.RowWordData)
+	word := actionData.Context.Data["word"].(*types.RowWordData)
 	err = db.GetDBManager().AddNNData(word, wordScore, actionData.ChatId)
 	if err != nil {
 		log.Println(err)
@@ -85,7 +83,7 @@ func NNTraining(actionData telegramData.ActionData) bool {
 		word = web.GetNNTrainingWord()
 		actionData.Context.Data["word"] = word
 
-		message = tgbotapi.NewMessage(actionData.ChatId, word.ToString())
+		message = tgbotapi.NewMessage(actionData.ChatId, web.ToString(word))
 		message.ParseMode = "HTML"
 		actionData.Context.Data["page"] = actionData.Context.Data["page"].(int) + 1
 	}
@@ -106,10 +104,10 @@ func toFixed(num float64, precision int) float64 {
 }
 
 
-func EndNNTraining(actionData telegramData.ActionData) bool {
-	actionData.Context.ReCreateContext()
+func EndNNTraining(actionData *types.ActionData) bool {
+	actionData.Context.Clear()
 
-	text := telegramHelpers.MessageBuilderInit().BoldText("Thank you =)\n").
+	text := telegramServices.MessageBuilderInit().BoldText("Thank you =)\n").
 		NormalText("Your contribution is invaluable.").Text
 
 	message := tgbotapi.NewMessage(actionData.ChatId, text)
