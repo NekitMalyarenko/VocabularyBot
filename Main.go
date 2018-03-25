@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	"github.com/NekitMalyarenko/VocabularyBot/vars"
 	"github.com/NekitMalyarenko/VocabularyBot/db"
 	"github.com/NekitMalyarenko/VocabularyBot/bot"
 )
